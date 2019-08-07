@@ -1,8 +1,8 @@
 import { FETCH_PRODUCTS, FETCH_PRODUCTS_SUCCESS } from "../constants/productConstants";
 
 let initialState = {
-  data: [],
-  loading: false
+  loading: false,
+  products: []
 };
 
 const productReducer = (state = initialState, action) => {
@@ -14,8 +14,8 @@ const productReducer = (state = initialState, action) => {
       return state;
     case FETCH_PRODUCTS_SUCCESS:
       state = Object.assign({}, state, {
-        data: action.payload,
-        loading: false
+        loading: false,
+        products: action.payload
       });
       return state;
     default:

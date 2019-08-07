@@ -1,49 +1,11 @@
-import React, { Fragment, Component } from "react";
-import { SafeAreaView, StyleSheet, FlatList, View, Text } from "react-native";
+import React from "react";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import ProductList from './screens/productList';
 
-class App extends Component {
-  state = {
-    products: [
-      {
-        name: "Sledgehammer",
-        price: 125.75
-      },
-      {
-        name: "Axe",
-        price: 190.5
-      },
-      {
-        name: "Bandsaw",
-        price: 562.13
-      },
-      {
-        name: "Chisel",
-        price: 12.9
-      },
-      {
-        name: "Hacksaw",
-        price: 18.45
-      }
-    ]
-  };
-
-  render() {
-    const { products } = this.state;
-    return (
-      <Fragment>
-        <SafeAreaView>
-          <FlatList
-            data={products}
-            renderItem={({item}) => <Text>{item.name}</Text>}
-            keyExtractor={(item, index) => `key${index}`}
-          />
-        </SafeAreaView>
-      </Fragment>
-    );
+const AppNavigator = createStackNavigator({
+  ProductList: {
+    screen: ProductList
   }
-}
-
-const styles = StyleSheet.create({
 });
 
-export default App;
+export default createAppContainer(AppNavigator);
