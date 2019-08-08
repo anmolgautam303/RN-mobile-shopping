@@ -1,20 +1,40 @@
-import React, {Component, Fragment} from 'react';
-import {StyleSheet, FlatList, View, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import React, { Component, Fragment } from "react";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  ActivityIndicator,
+  Text,
+  TouchableOpacity
+} from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { getPrice } from "../../utilities";
 
-class App extends Component {
+class ProductList extends Component {
   componentDidMount() {
     this.props.fetchProducts();
   }
 
-  renderItem = ({item}) => {
+  renderHeader = () => (
+    <View style={[styles.row, styles.headerTitles]}>
+      <Text style={styles.name}>Name</Text>
+      <Text style={styles.price}>Price</Text>
+      <Text style={styles.addIcon}>Add</Text>
+    </View>
+  );
+
+  renderItem = ({ item }) => {
+    const { addToCart } = this.props;
+
     return (
       <View style={styles.row}>
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>${item.price}</Text>
+        <Text style={styles.price}>{getPrice(item.price)}</Text>
         <TouchableOpacity
-          onPress={() => alert("This is a button!")}
+          style={styles.addIcon}
+          onPress={() => addToCart(item)}
         >
-          <Text>+</Text>
+          <MaterialIcons name="add-circle" size={32} color="green" />
         </TouchableOpacity>
       </View>
     );
@@ -28,16 +48,19 @@ class App extends Component {
     if (loading) {
       return (
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator animating={true}/>
+          <ActivityIndicator animating={true} />
         </View>
       );
     }
 
     return (
       <Fragment>
-        <Text style={styles.heading}>Products:</Text>
+        {
+          products.length > 0
+            && this.renderHeader()
+        }
         <FlatList
-          keyExtractor={(item, index) => `key${index}`}
+          keyExtractor={(item, index) => index.toString()}
           data={products}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.divider}
@@ -50,27 +73,32 @@ class App extends Component {
 const styles = StyleSheet.create({
   activityIndicatorContainer: {
     backgroundColor: "#fff",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1
   },
-  heading: {
-    padding: 20,
-    color: 'green'
-  },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20
   },
+  headerTitles: {
+    borderBottomWidth: 1
+  },
   divider: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 1
   },
   name: {
-    flex: 2
+    flex: 3
   },
+  price: {
+    flex: 1.2
+  },
+  addIcon: {
+    flex: 0.5
+  }
 });
 
-export default App;
+export default ProductList;

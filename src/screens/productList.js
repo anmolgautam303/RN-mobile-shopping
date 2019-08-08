@@ -1,27 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import ProductListComponent from "../components/productList";
-import { fetchProducts } from "../actions";
+import { addToCart, fetchProducts } from "../actions";
 
 class ProductListContainer extends Component {
-  static navigationOptions = {
-    headerTitle: <Text>Mobile Shopping</Text>,
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: <Text>Products</Text>,
     headerRight: (
-      <Button
-        onPress={() => alert("This is a button!")}
-        title="Info"
-        color="green"
-      />
+      <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+        <MaterialIcons name="shopping-cart" size={32} />
+      </TouchableOpacity>
     )
-  };
+  });
+
   render() {
     return (
       <ProductListComponent
         {...this.props}
         loading={this.props.loading}
         products={this.props.products}
+        addToCart={this.props.addToCart}
       />
     );
   }
@@ -38,6 +39,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchProducts: () => {
       dispatch(fetchProducts());
+    },
+    addToCart: item => {
+      dispatch(addToCart(item));
     }
   };
 };
