@@ -53,7 +53,7 @@ class ProductList extends Component<Props> {
   render() {
     const { loading, products } = this.props;
 
-    if (loading) {
+    if (loading && products.length === 0) {
       return (
         <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator animating={true} />
