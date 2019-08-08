@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -7,12 +7,13 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity
-} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { getPrice } from '../../utilities';
+} from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { showMessage } from "react-native-flash-message";
+import { getPrice } from "../../utilities";
 
 type Props = {
-  products: Array<{name: string, price: number}>,
+  products: Array<{ name: string, price: number }>,
   fetchProducts: Function,
   addToCart: Function,
   loading: boolean
@@ -40,9 +41,15 @@ class ProductList extends Component<Props> {
         <Text style={styles.price}>{getPrice(item.price)}</Text>
         <TouchableOpacity
           style={styles.addIcon}
-          onPress={() => addToCart(item)}
+          onPress={() => {
+            addToCart(item);
+            showMessage({
+              message: `${item.name} has been added to cart`,
+              type: "success"
+            });
+          }}
         >
-          <MaterialIcons name='add-circle' size={32} color='green' />
+          <MaterialIcons name="add-circle" size={32} color="green" />
         </TouchableOpacity>
       </View>
     );
@@ -77,22 +84,22 @@ class ProductList extends Component<Props> {
 
 const styles = StyleSheet.create({
   activityIndicatorContainer: {
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20
   },
   headerTitles: {
     borderBottomWidth: 1
   },
   divider: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 1
   },
   name: {

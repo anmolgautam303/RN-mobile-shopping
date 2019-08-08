@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -7,12 +7,13 @@ import {
   Text,
   TouchableOpacity,
   Alert
-} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { getPrice } from '../../utilities';
+} from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { getPrice } from "../../utilities";
+import { showMessage } from "react-native-flash-message";
 
 type Props = {
-  productsInCart: Array<{name: string, price: number, quantity: number}>,
+  productsInCart: Array<{ name: string, price: number, quantity: number }>,
   removeFromCart: Function
 };
 
@@ -27,15 +28,24 @@ class Cart extends Component<Props> {
     const { removeFromCart } = this.props;
 
     Alert.alert(
-      'Confirmation',
+      "Confirmation",
       `Remove ${item.name} from the cart?`,
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel'
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
-        { text: 'OK', onPress: () => removeFromCart(item) }
+        {
+          text: "OK",
+          onPress: () => {
+            removeFromCart(item);
+            showMessage({
+              message: `${item.name} has been removed to cart`,
+              type: "success"
+            });
+          }
+        }
       ],
       { cancelable: false }
     );
@@ -51,7 +61,7 @@ class Cart extends Component<Props> {
           Total: {getPrice(item.quantity * item.price)}
         </Text>
         <TouchableOpacity onPress={() => this.removeFromCartConfirmation(item)}>
-          <MaterialIcons name='remove-circle' size={32} color='red' />
+          <MaterialIcons name="remove-circle" size={32} color="red" />
         </TouchableOpacity>
       </View>
     );
@@ -102,7 +112,7 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   emptyList: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 60
   },
   item: {
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   divider: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 1
   },
   mgBtm: {
@@ -123,7 +133,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   subtotal: {
-    fontWeight: 'bold'
+    fontWeight: "bold"
   }
 });
 
