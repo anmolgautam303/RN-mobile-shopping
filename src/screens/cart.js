@@ -1,11 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Text } from "react-native";
+// @flow
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Text } from 'react-native';
+import CartComponent from '../components/cart';
+import { removeFromCart } from '../actions/productAction';
 
-import CartComponent from "../components/cart";
-import { removeFromCart } from '../actions';
+type Props = {
+  productsInCart: Array<{name: string, price: number, quantity: number}>,
+  removeFromCart: Function
+};
 
-class CartContainer extends Component {
+class CartContainer extends Component<Props> {
   static navigationOptions = {
     headerTitle: <Text>Cart</Text>
   };
@@ -23,7 +28,6 @@ class CartContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    addingProductsToCart: state.ProductReducer.addingProductsToCart,
     productsInCart: state.ProductReducer.productsInCart
   };
 };

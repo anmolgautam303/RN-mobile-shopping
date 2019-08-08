@@ -1,17 +1,24 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Text, TouchableOpacity } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+// @flow
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Text, TouchableOpacity } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ProductListComponent from '../components/productList';
+import { addToCart, fetchProducts } from '../actions/productAction';
 
-import ProductListComponent from "../components/productList";
-import { addToCart, fetchProducts } from "../actions";
+type Props = {
+  loading: boolean,
+  products: Array<{name: string, price: number}>,
+  fetchProducts: Function,
+  addToCart: Function
+};
 
-class ProductListContainer extends Component {
+class ProductListContainer extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text>Products</Text>,
     headerRight: (
-      <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-        <MaterialIcons name="shopping-cart" size={32} />
+      <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+        <MaterialIcons name='shopping-cart' size={32} />
       </TouchableOpacity>
     )
   });
@@ -23,6 +30,7 @@ class ProductListContainer extends Component {
         loading={this.props.loading}
         products={this.props.products}
         addToCart={this.props.addToCart}
+        fetchProducts={this.props.fetchProducts}
       />
     );
   }

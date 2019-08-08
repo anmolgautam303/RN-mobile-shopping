@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+// @flow
+import React, { Component, Fragment } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -6,11 +7,18 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity
-} from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { getPrice } from "../../utilities";
+} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { getPrice } from '../../utilities';
 
-class ProductList extends Component {
+type Props = {
+  products: Array<{name: string, price: number}>,
+  fetchProducts: Function,
+  addToCart: Function,
+  loading: boolean
+};
+
+class ProductList extends Component<Props> {
   componentDidMount() {
     this.props.fetchProducts();
   }
@@ -23,7 +31,7 @@ class ProductList extends Component {
     </View>
   );
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item }: { item: Object }) => {
     const { addToCart } = this.props;
 
     return (
@@ -34,7 +42,7 @@ class ProductList extends Component {
           style={styles.addIcon}
           onPress={() => addToCart(item)}
         >
-          <MaterialIcons name="add-circle" size={32} color="green" />
+          <MaterialIcons name='add-circle' size={32} color='green' />
         </TouchableOpacity>
       </View>
     );
@@ -55,10 +63,7 @@ class ProductList extends Component {
 
     return (
       <Fragment>
-        {
-          products.length > 0
-            && this.renderHeader()
-        }
+        {products.length > 0 && this.renderHeader()}
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           data={products}
@@ -72,22 +77,22 @@ class ProductList extends Component {
 
 const styles = StyleSheet.create({
   activityIndicatorContainer: {
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 20
   },
   headerTitles: {
     borderBottomWidth: 1
   },
   divider: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     height: 1
   },
   name: {

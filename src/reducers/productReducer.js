@@ -1,18 +1,18 @@
+// @flow
 import {
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_SUCCESS,
-  ADD_PRODUCT, REMOVE_PRODUCT,
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
 } from '../constants/productConstants';
-import store from '../store';
 
-let initialState = {
+export const initialState = {
   loading: false,
   products: [],
-  productsInCart: [],
-  addingProductsToCart: false
+  productsInCart: []
 };
 
-const productReducer = (state = initialState, action) => {
+const productReducer = (state: Object = initialState, action: Object) => {
   switch (action.type) {
     case FETCH_PRODUCTS:
       return {

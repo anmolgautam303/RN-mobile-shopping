@@ -1,12 +1,14 @@
+// @flow
+import { Dispatch } from 'redux';
 import {
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_SUCCESS,
   ADD_PRODUCT,
   REMOVE_PRODUCT
-} from "../constants/productConstants";
-import Products from "./products.json";
+} from '../constants/productConstants';
+import Products from './products.json';
 
-export const fetchProducts = () => dispatch => {
+export const fetchProducts = () => (dispatch: Dispatch) => {
   dispatch({ type: FETCH_PRODUCTS });
 
   setTimeout(() => {
@@ -14,14 +16,14 @@ export const fetchProducts = () => dispatch => {
   }, 2000);
 };
 
-export const addToCart = payload => {
+export const addToCart = (payload: Object) => {
   return {
     type: ADD_PRODUCT,
     payload
   };
 };
 
-export const removeFromCart = payload => {
+export const removeFromCart = (payload: Object) => {
   return {
     type: REMOVE_PRODUCT,
     payload

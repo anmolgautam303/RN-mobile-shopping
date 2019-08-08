@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+// @flow
+import React, { Component, Fragment } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -6,36 +7,41 @@ import {
   Text,
   TouchableOpacity,
   Alert
-} from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { getPrice } from "../../utilities";
+} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { getPrice } from '../../utilities';
 
-class Cart extends Component {
+type Props = {
+  productsInCart: Array<{name: string, price: number, quantity: number}>,
+  removeFromCart: Function
+};
+
+class Cart extends Component<Props> {
   listEmptyComponent = () => (
     <View style={styles.emptyList}>
       <Text>Your shopping cart is empty</Text>
     </View>
   );
 
-  removeFromCartConfirmation = item => {
+  removeFromCartConfirmation = (item: Object) => {
     const { removeFromCart } = this.props;
 
     Alert.alert(
-      "Confirmation",
+      'Confirmation',
       `Remove ${item.name} from the cart?`,
       [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
         },
-        { text: "OK", onPress: () => removeFromCart(item) }
+        { text: 'OK', onPress: () => removeFromCart(item) }
       ],
       { cancelable: false }
     );
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item }: { item: Object }) => {
     return (
       <View style={styles.item}>
         <Text style={styles.mgBtm}>Name: {item.name}</Text>
@@ -45,7 +51,7 @@ class Cart extends Component {
           Total: {getPrice(item.quantity * item.price)}
         </Text>
         <TouchableOpacity onPress={() => this.removeFromCartConfirmation(item)}>
-          <MaterialIcons name="remove-circle" size={32} color="red" />
+          <MaterialIcons name='remove-circle' size={32} color='red' />
         </TouchableOpacity>
       </View>
     );
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   emptyList: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 60
   },
   item: {
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   divider: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     height: 1
   },
   mgBtm: {
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   subtotal: {
-    fontWeight: "bold"
+    fontWeight: 'bold'
   }
 });
 
